@@ -18,7 +18,8 @@ const columns = [
 ReactDOM.render(
     <Table
         columns={columns}
-        data={data.lists}
+        data={[]}
+        tableStyle='table table-hover table-condensed dataTable no-footer'
     />,
     document.getElementById('table')
 )

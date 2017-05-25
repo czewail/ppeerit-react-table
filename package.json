@@ -1,6 +1,6 @@
 {
   "name": "ppeerit-react-table",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/table.js",
   "scripts": {
@@ -12,6 +12,10 @@
   "keywords": [],
   "author": "chenzewei",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ppeerit/ppeerit-react-table.git"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.0.0",

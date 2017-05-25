@@ -22,26 +22,50 @@ export default class Table extends React.Component {
         // 返回头部
         return row
     }
+
+    // 样式转换器
+    // 字符串用className属性
+    // 对象用style属性
+    _getStyles = (params) => {
+        let styles = {}
+        switch (typeof params) {
+            case 'object':
+                styles = {
+                    ...styles,
+                    style: {...params}
+                }
+                break
+            case 'string':
+                styles = {
+                    ...styles,
+                    className: params
+                }
+                break
+        }
+        return styles
+    }
+
     // 渲染组件
     render() {
         // 获取组件属性
-        const {columns, data} = this.props
-        // 返回组件
+        const {columns, data, tableStyle, wrapStyle} = this.props
+        // 获取表格父级div样式
+        const wrapStyles = this._getStyles(wrapStyle)
+        // 获取表格样式
+        const tableStyles = this._getStyles(tableStyle)
+
+        // 生成组件
         return (
-            <div className="row">
-                <div className="col-md-12">
-                    <div className="table-responsive">
-                        <table className="table table-hover">
-                            <Header
-                                rows={this._getHeader(columns)}
-                            />
-                            <Body
-                                columns={columns}
-                                data={data}
-                            />
-                        </table>
-                    </div>
-                </div>
+            <div {...wrapStyles}>
+                <table {...tableStyles}>
+                    <Header
+                        rows={this._getHeader(columns)}
+                    />
+                    <Body
+                        columns={columns}
+                        data={data}
+                    />
+                </table>
             </div>
         )
     }
@@ -49,4 +73,18 @@ export default class Table extends React.Component {
 
 Table.propTypes = {
     columns: PropTypes.array, // 列信息
+    data: PropTypes.array, // 表格数据
+    wrapStyle: PropTypes.oneOfType([ // 表格外部div样式
+        PropTypes.object,
+        PropTypes.string
+    ]),
+    tableStyle: PropTypes.oneOfType([ // 表格样式
+        PropTypes.object,
+        PropTypes.string
+    ]),
+}
+Table.defaultProps = {
+    columns: [],
+    data: [],
+    tableStyle: 'table'
 }

@@ -22,7 +22,8 @@ export default class Body extends React.Component {
         console.log(columns)
         return (
             <tbody>
-            {data.map((rowItem, i) => {
+            {data.length ?
+                data.map((rowItem, i) => {
                 return (
                     <Row
                         key={i}
@@ -30,7 +31,11 @@ export default class Body extends React.Component {
                         cells={cells}
                     />
                 )
-            })}
+            }) :
+                <tr>
+                    <td style={{'textAlign': 'center'}} colSpan={cells.length}>没有数据</td>
+                </tr>
+            }
             </tbody>
         )
     }

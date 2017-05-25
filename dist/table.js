@@ -2597,13 +2597,21 @@ var Body = function (_React$Component) {
             return _react2.default.createElement(
                 'tbody',
                 null,
-                data.map(function (rowItem, i) {
+                data.length ? data.map(function (rowItem, i) {
                     return _react2.default.createElement(_Row2.default, {
                         key: i,
                         data: rowItem,
                         cells: cells
                     });
-                })
+                }) : _react2.default.createElement(
+                    'tr',
+                    null,
+                    _react2.default.createElement(
+                        'td',
+                        { style: { 'textAlign': 'center' }, colSpan: cells.length },
+                        '\u6CA1\u6709\u6570\u636E'
+                    )
+                )
             );
         }
     }]);
@@ -4745,6 +4753,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(5);
@@ -4799,44 +4811,62 @@ var Table = function (_React$Component) {
             });
             // 返回头部
             return row;
+        }, _this._getStyles = function (params) {
+            var styles = {};
+            switch (typeof params === 'undefined' ? 'undefined' : _typeof(params)) {
+                case 'object':
+                    styles = _extends({}, styles, {
+                        style: _extends({}, params)
+                    });
+                    break;
+                case 'string':
+                    styles = _extends({}, styles, {
+                        className: params
+                    });
+                    break;
+            }
+            return styles;
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     // 获取表格头部
 
 
+    // 样式转换器
+
+
     _createClass(Table, [{
         key: 'render',
+
 
         // 渲染组件
         value: function render() {
             // 获取组件属性
             var _props = this.props,
                 columns = _props.columns,
-                data = _props.data;
-            // 返回组件
+                data = _props.data,
+                tableStyle = _props.tableStyle,
+                wrapStyle = _props.wrapStyle;
+            // 获取表格父级div样式
 
+            var wrapStyles = this._getStyles(wrapStyle);
+            // 获取表格样式
+            var tableStyles = this._getStyles(tableStyle);
+
+            // 生成组件
             return _react2.default.createElement(
                 'div',
-                { className: 'row' },
+                wrapStyles,
                 _react2.default.createElement(
-                    'div',
-                    { className: 'col-md-12' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'table-responsive' },
-                        _react2.default.createElement(
-                            'table',
-                            { className: 'table table-hover' },
-                            _react2.default.createElement(_Header2.default, {
-                                rows: this._getHeader(columns)
-                            }),
-                            _react2.default.createElement(_Body2.default, {
-                                columns: columns,
-                                data: data
-                            })
-                        )
-                    )
+                    'table',
+                    tableStyles,
+                    _react2.default.createElement(_Header2.default, {
+                        rows: this._getHeader(columns)
+                    }),
+                    _react2.default.createElement(_Body2.default, {
+                        columns: columns,
+                        data: data
+                    })
                 )
             );
         }
@@ -4849,7 +4879,18 @@ exports.default = Table;
 
 
 Table.propTypes = {
-    columns: _propTypes2.default.array };
+    columns: _propTypes2.default.array, // 列信息
+    data: _propTypes2.default.array, // 表格数据
+    wrapStyle: _propTypes2.default.oneOfType([// 表格外部div样式
+    _propTypes2.default.object, _propTypes2.default.string]),
+    tableStyle: _propTypes2.default.oneOfType([// 表格样式
+    _propTypes2.default.object, _propTypes2.default.string])
+};
+Table.defaultProps = {
+    columns: [],
+    data: [],
+    tableStyle: 'table'
+};
 
 /***/ })
 /******/ ]);
